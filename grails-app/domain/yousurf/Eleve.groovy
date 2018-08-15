@@ -12,6 +12,7 @@ class Eleve implements Serializable {
 
 
 	static constraints = {
+		email email: true
 	}
 
 

@@ -10,5 +10,6 @@ class Niveau implements Serializable {
 
   static mapping = {
       table schema: Constantes.DEFAULT_SCHEMA
+      sort "libelle"
   }
 }

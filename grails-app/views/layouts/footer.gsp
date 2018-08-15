@@ -1,7 +1,7 @@
 <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <h6>
-            YouSurf - Galerie Le Belvedère - 56520 GUIDEL-Plages
+            YouSurf - Galerie Le Belvedère - 56520 Guidel-Plages
             <br/>
             06 83 16 50 08 ou 06 63 73 46 40
             <br/>

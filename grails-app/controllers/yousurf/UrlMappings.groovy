@@ -9,8 +9,9 @@ class UrlMappings {
             }
         }
 
-        "/"(controller:"inscription")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+        "/"(controller: 'tableauBord')
+        "/error"(view: '/error')
+        "500"(view: '/error')
+        "404"(view: '/notFound')
     }
 }

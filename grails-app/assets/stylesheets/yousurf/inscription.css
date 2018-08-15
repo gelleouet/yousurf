@@ -1,0 +1,44 @@
+table.formule-table {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    border-spacing : 0;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table.formule-table td {
+    padding: 10px;
+    text-align: center;
+}
+
+table.formule-table > tbody > tr:first-child > td {
+    vertical-align: top;
+}
+
+table.formule-table > tbody > tr:not(:last-child) > td {
+    border-bottom: 1px solid lightgrey;
+}
+
+table.formule-table > tbody > tr > td:not(:last-child) {
+    border-right: 1px solid lightgrey;
+}
+
+table.creneau-table {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    border-spacing : 0;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table.creneau-table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.inscription-step-tracker {
+    border: 1px solid lightgrey;
+    margin: 10px 0px;
+    padding: 10px 0px;
+    border-radius: 5px;
+}
