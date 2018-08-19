@@ -7,6 +7,7 @@
 //
 //= require jquery-2.2.0.min
 //= require_tree aui-7.9.6
+//= require_tree yousurf
 //= require_self
 
 if (typeof jQuery !== 'undefined') {

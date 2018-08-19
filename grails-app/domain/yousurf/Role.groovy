@@ -21,5 +21,6 @@ class Role implements Serializable {
 
 	static mapping = {
 		table schema: Constantes.DEFAULT_SCHEMA
+		authority length: 64
 	}
 }

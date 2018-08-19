@@ -8,7 +8,8 @@ class Formule implements Serializable {
 
 
     static constraints = {
-        commentaire nullable:true
+        commentaire nullable: true
+        libelle unique: true
     }
 
 

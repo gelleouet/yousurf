@@ -1,0 +1,8 @@
+model {
+    List<Eleve> eleveList
+}
+
+json {
+    label eleveList.prenom
+    value eleveList.id
+}

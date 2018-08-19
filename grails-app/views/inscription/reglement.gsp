@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>YouSurf Condition &amp; Règlement</title>
 </head>
 <body pagelayout="aui-page-focused aui-page-size-large">
     <asset:image src="boutik-yousurf.jpg" class="header-banniere-img"/>

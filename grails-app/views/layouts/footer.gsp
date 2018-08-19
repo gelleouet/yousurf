@@ -7,6 +7,8 @@
             <br/>
             <span class="aui-icon aui-icon-small aui-iconfont-email"></span> contact@yousurf.fr  &nbsp;&nbsp;&nbsp;  <span class="aui-icon aui-icon-small aui-iconfont-people"></span> <a href="https://www.facebook.com/surfshoplastageguidelxyousurf.fr/">Facebook</a>
         </h6>
-        <asset:image src="yousurf-logo.png" class="footer-logo"/>
+        <g:link uri="http://www.yousurf.fr" target="yousurf">
+            <asset:image src="yousurf-logo.png" class="footer-logo"/>
+        </g:link>
     </section>
 </footer>

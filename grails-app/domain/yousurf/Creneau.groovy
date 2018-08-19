@@ -5,6 +5,7 @@ class Creneau implements Serializable {
 
 
     static constraints = {
+        libelle unique: true
     }
 
 

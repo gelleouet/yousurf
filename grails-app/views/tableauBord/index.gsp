@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>YouSurf Tableau Bord</title>
 </head>
 
 <body>
@@ -17,8 +16,7 @@
 
 <content tag="headeractions">
     <div class="aui-buttons">
-        <g:link controller="inscription" class="aui-button">Inscriptions</g:link>
-        <g:link controller="eleve" class="aui-button">Elèves</g:link>
+        <g:link controller="inscription" class="aui-button"><span class="aui-icon aui-icon-small aui-iconfont-settings"></span> Paramètres</g:link>
     </div>
 </content>
 

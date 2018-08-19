@@ -11,7 +11,10 @@
 
     <g:layoutHead/>
 </head>
-<body class="${ pageProperty(name: 'body.pagelayout') }">
+
+<g:set var="onDefaultLoad" value="onDefaultLoad('${controllerName}_${actionName}')"/>
+
+<body class="${ pageProperty(name: 'body.pagelayout') }" onload="${ pageProperty(name: 'body.onload') ?: onDefaultLoad }">
     <div id="page">
         <g:applyLayout name="header"/>
 

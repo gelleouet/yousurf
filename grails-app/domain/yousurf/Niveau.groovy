@@ -5,6 +5,7 @@ class Niveau implements Serializable {
 
   
   static constraints = {
+      libelle unique: true
   }
 
 

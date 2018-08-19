@@ -1,6 +1,7 @@
 package yousurf
 
 import grails.plugin.springsecurity.annotation.Secured
+import yousurf.command.InscriptionCommand
 
 
 class InscriptionController extends AbstractController {
@@ -13,7 +14,7 @@ class InscriptionController extends AbstractController {
     @Secured("hasRole('ROLE_ADMIN')")
     def index(InscriptionCommand command) {
         def inscriptions = inscriptionService.search(command, pagination())
-        return [inscriptions: inscriptions, command: command ?: new InscriptionCommand()]
+        return [inscriptions: inscriptions, command: command]
     }
 
     /**
@@ -24,23 +25,53 @@ class InscriptionController extends AbstractController {
      */
     @Secured("hasRole('ROLE_ADMIN')")
     def edit(Inscription inscription) {
-        def model = fetchModelInscription([:])
+        def model = fetchModel([:])
         model.inscription = inscription
         return model
+    }
+
+    /**
+     * Création rapide depuis un élève
+     *
+     * @param eleve
+     */
+    @Secured('isAuthenticated()')
+    def createForEleve(Eleve eleve) {
+        Inscription inscription = inscriptionService.createForEleve(eleve)
+        create(inscription, 1)
     }
 
 
     /**
      * Nouvelle inscription
      */
-    @Secured('permitAll')
+    @Secured('isAuthenticated()')
     def create(Inscription inscription, int step) {
-        def model = fetchModelInscription([:])
+        def model = fetchModel([:])
         model.inscription = inscription ?: new Inscription()
-        if (step) {
-            model.inscription.currentStep = step
+        model.steps = ['Coordonnées', 'Contact', 'Santé', 'Prestation', 'Autorisation', 'Attestation']
+
+        // enregistrement à chaque étape l'inscription
+        // en fonction des étapes, on doit faire des bindings manuels
+        switch (model.inscription.currentStep) {
+            case 3: inscription.bindMedicaux(); break
+            case 4: inscription.bindCreneauxFromList(); break
+            case 5: inscription.bindParentaux(); break
         }
-        model.maxStep = 7
+
+        try {
+            inscriptionService.save(model.inscription)
+
+            // changement d'étape si pas d'erreur
+            if (step) {
+                model.inscription.currentStep = step
+            }
+        } catch (AppException exApp) {
+            setAppException(exApp)
+            // après erreur transaction rollbackée donc on doit rattacher l'objet
+            inscription.attach()
+        }
+
         render (view: "create", model: model)
     }
 
@@ -48,42 +79,38 @@ class InscriptionController extends AbstractController {
     /**
      * Nouvelle inscription étape suivante
      */
-    @Secured('permitAll')
+    @Secured('isAuthenticated()')
     def createNextStep(Inscription inscription) {
-        inscription.currentStep++
-        create(inscription, inscription.currentStep)
+        create(inscription, inscription.currentStep + 1)
     }
 
 
     /**
      * Nouvelle inscription étape précédente
      */
-    @Secured('permitAll')
+    @Secured('isAuthenticated()')
     def createPrevStep(Inscription inscription) {
-        inscription.currentStep--
-        create(inscription, inscription.currentStep)
+        create(inscription, inscription.currentStep - 1)
     }
 
 
     /**
-     * Enregistrement d'une inscription
+     * Confirmation d'une inscription
      *
      * @param inscription
      */
-    @Secured('permitAll')
-    def saveCreate(Inscription inscription) {
-        // binding manuel
-        inscription.bindCreneauxFromList()
-            .bindProblemeMedical()
+    @Secured('isAuthenticated()')
+    def confirm(Inscription inscription) {
+        try {
+            inscriptionService.confirm(inscription)
+        } catch (AppException exApp) {
+            setAppException(exApp)
+            // si erreur, transaction rollbackée et l'objet n'est pas attachée à une session ouverte
+            inscription.attach()
+            return create(inscription, exApp.params.step)
+        }
 
-        // on refait la validation pour recalculer les erreurs avant l'enregistrement
-        inscription.validate()
-        inscriptionService.saveInscription(inscription)
-
-        def model = fetchModelInscription([:])
-        model.inscription = inscription
-
-        render(view: 'inscription', model: model)
+        return [inscription: inscription]
     }
 
 
@@ -92,7 +119,8 @@ class InscriptionController extends AbstractController {
      *
      * @param model
      */
-    private def fetchModelInscription(def model) {
+    @Override
+    protected Map fetchModel(Map model) {
         model.formules = Formule.list([sort: "id"])
         model.creneaux = Creneau.list([sort: "id"])
         model.niveaux = Niveau.list([sort: "id"])
@@ -104,7 +132,7 @@ class InscriptionController extends AbstractController {
      * Règlement et conditions
      *
      */
-    @Secured('permitAll')
+    @Secured('isAuthenticated()')
     def reglement() {
 
     }

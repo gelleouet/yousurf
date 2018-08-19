@@ -2,6 +2,7 @@ package yousurf
 
 
 class Inscription implements Serializable {
+    Date dateCreated
     Date dateDebut
     Date dateFin
     Eleve eleve
@@ -9,26 +10,36 @@ class Inscription implements Serializable {
     Niveau niveau
     boolean brevet25m
     String lieuSignature
-    Date dateSignature
     Formule formule
-    String autorisationParentale
-    Set problemeMedicaux = []
+    Set parentaux = []
+    Set medicaux = []
     Set creneaux = []
+    boolean confirm
 
     // User properties
     List<Integer> creneauxList = []
     String problemeMedical
+    String autorisationParentale
     int currentStep
 
 
-    static transients = ['creneauxList', 'problemeMedical', 'currentStep']
+    static transients = ['creneauxList', 'problemeMedical', 'currentStep', 'autorisationParentale']
 
 
-    static hasMany = [problemeMedicaux: ProblemeMedical, creneaux: InscriptionCreneau]
+    static hasMany = [medicaux: InscriptionMedical, creneaux: InscriptionCreneau, parentaux: InscriptionAutorisation]
 
-  
+
+    // toutes les propriétés sont déclarées en nullable car la création se fait en plusieurs étapes
+    // à la confirmation, les propriétés seront bien non nulles
     static constraints = {
-        autorisationParentale nullable: true
+        dateDebut nullable: true
+        dateFin nullable: true
+        eleve nullable: true
+        contact nullable: true
+        niveau nullable: true
+        lieuSignature nullable: true
+        formule nullable: true
+        autorisationParentale nullable: true, bindable: true
         creneauxList bindable: true
         problemeMedical nullable: true, bindable: true
         currentStep bindable: true
@@ -37,19 +48,20 @@ class Inscription implements Serializable {
 
     static mapping = {
         table schema: Constantes.DEFAULT_SCHEMA
-        problemeMedicaux cascade: 'all-delete-orphan'
+        medicaux cascade: 'all-delete-orphan'
         creneaux cascade: 'all-delete-orphan'
-        dateDebut index: 'Inscription_Idx'
+        parentaux cascade: 'all-delete-orphan'
+        dateCreated index: 'Inscription_Idx'
         eleve index: 'Inscription_Idx'
+        lieuSignature length: 128
     }
 
     /**
      * Default constructor
      */
     Inscription() {
-        dateDebut = new Date()
-        dateFin = new Date()
-        dateSignature = new Date()
+        dateDebut = new Date().clearTime()
+        dateFin = new Date().clearTime()
         currentStep = 1
     }
 
@@ -59,16 +71,12 @@ class Inscription implements Serializable {
      * @return this
      */
     Inscription bindCreneauxFromList() {
-        // suppression des créneaux existants qui ne sont pas dans la liste
-        creneaux.removeAll { creneau ->
-            ! (creneau.id in creneauxList)
-        }
+        // suppression des créneaux existants
+        InscriptionCreneau.where { inscription == this }.deleteAll()
 
         // ajout des nouveaux créneaux
         creneauxList.each { creneauId ->
-            if (! creneaux.find { it.id == creneauId } ) {
-                this.addToCreneaux(creneau: Creneau.read(creneauId))
-            }
+            this.addToCreneaux(creneau: Creneau.read(creneauId))
         }
 
         return this
@@ -80,16 +88,38 @@ class Inscription implements Serializable {
      *
      * @return
      */
-    Inscription bindProblemeMedical() {
+    Inscription bindMedicaux() {
         if (problemeMedical) {
-            if (problemeMedicaux) {
-                problemeMedicaux[0].libelle = problemeMedical
+            if (medicaux) {
+                medicaux[0].libelle = problemeMedical
             } else {
-                this.addToProblemeMedicaux(libelle: problemeMedical)
+                this.addToMedicaux(libelle: problemeMedical)
             }
         } else {
-            if (problemeMedicaux) {
-                problemeMedicaux.removeAll()
+            if (medicaux) {
+                medicaux.clear()
+            }
+        }
+
+        return this
+    }
+
+
+    /**
+     * Binding des autorisations parentales depuis la propriété simple
+     *
+     * @return
+     */
+    Inscription bindParentaux() {
+        if (autorisationParentale) {
+            if (parentaux) {
+                parentaux[0].libelle = autorisationParentale
+            } else {
+                this.addToParentaux(libelle: autorisationParentale)
+            }
+        } else {
+            if (parentaux) {
+                parentaux.clear()
             }
         }
 

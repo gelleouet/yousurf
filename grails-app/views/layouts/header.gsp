@@ -4,7 +4,9 @@
             <div class="aui-header-primary">
                 <h1 id="logo" class="aui-header-logo aui-header-logo-aui"><g:link uri="/"><asset:image src="yousurf-logo.png"/></g:link></h1>
                 <ul class="aui-nav">
-                    <li><g:link controller="inscription" action="create" class="aui-button aui-button-primary">Inscription</g:link></li>
+                    <sec:ifLoggedIn>
+                        <li><g:link controller="inscription" action="create" class="aui-button aui-button-primary">Inscription</g:link></li>
+                    </sec:ifLoggedIn>
                 </ul>
             </div>
             <div class="aui-header-secondary">
@@ -18,18 +20,17 @@
                                         <sec:username/>
                                     </div>
                                     <ul>
-                                        <li><g:link>Paramètres</g:link></li>
+                                        <li><g:link controller="inscription">Paramètres</g:link></li>
+                                    </ul>
+                                </div>
+                                <div class="aui-dropdown2-section">
+                                    <ul>
                                         <li><g:link uri="/logoff">Déconnexion</g:link></li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     </sec:ifLoggedIn>
-                    <sec:ifNotLoggedIn>
-                        <li>
-                            <g:link controller="login" class="aui-button aui-button-primary">Connexion</g:link>
-                        </li>
-                    </sec:ifNotLoggedIn>
                     <li>
                         <a href="#dropdown2-aide" aria-owns="dropdown2-aide" aria-haspopup="true" class="aui-dropdown2-trigger" ><span class="aui-icon aui-icon-small aui-iconfont-help">Help</span><span class="aui-icon-dropdown"></span></a>
                         <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-aide" aria-hidden="true">

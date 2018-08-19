@@ -1,6 +1,6 @@
 package yousurf
 
-class ProblemeMedical implements Serializable {
+class InscriptionMedical implements Serializable {
   String libelle
   Inscription inscription
 
@@ -14,8 +14,7 @@ class ProblemeMedical implements Serializable {
 
   static mapping = {
       table schema: Constantes.DEFAULT_SCHEMA
-      inscription index: 'ProblemeMedical_Idx'
-      libelle type: 'text'
+      inscription index: 'InscriptionMedical_Idx'
   }
   
 }

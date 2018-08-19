@@ -14,7 +14,9 @@
     <h2>Connectez-vous à l'aide de vos identifiants</h2>
 
     <g:if test='${flash.message}'>
-        <span class="aui-lozenge aui-lozenge-subtle aui-lozenge-error">${flash.message}</span>
+        <g:applyLayout name="message-warning">
+            ${flash.message}
+        </g:applyLayout>
     </g:if>
 
     <g:form controller="login" action="authenticate" class="aui" autocomplete="off">

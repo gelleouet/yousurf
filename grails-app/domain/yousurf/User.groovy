@@ -27,7 +27,8 @@ class User implements Serializable {
 
     static mapping = {
         table name: 'utilisateur', schema: Constantes.DEFAULT_SCHEMA // change le nom de la table car mot clé PostgreSQL
-	    password column: '`password`'
+	    password column: '`password`', length: 128
+        username length: 128
     }
 
 
