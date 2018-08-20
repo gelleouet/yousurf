@@ -6,16 +6,9 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery-2.2.0.min
-//= require_tree aui-7.9.6
+//= require aui-7.9.6/aui.min
+//= require aui-7.9.6/aui-experimental.min
+//= require aui-7.9.6/aui-datepicker.min
 //= require_tree yousurf
 //= require_self
 
-if (typeof jQuery !== 'undefined') {
-    (function($) {
-        $(document).ajaxStart(function() {
-            $('#spinner').fadeIn();
-        }).ajaxStop(function() {
-            $('#spinner').fadeOut();
-        });
-    })(jQuery);
-}
