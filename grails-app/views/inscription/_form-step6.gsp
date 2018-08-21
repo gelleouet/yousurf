@@ -1,3 +1,7 @@
+<div id="aui-message-bar">
+</div>
+
+
 <h3>Attestation</h3>
 
 <p class="text-justify">
@@ -15,11 +19,18 @@ souscrire une assurance complémentaire de personne.
 </div>
 
 <div class="field-group">
-<label for="dateSignature"><span class="aui-icon icon-required"></span> Le</label>
-<g:field name="dateSignature" type="date" class="text medium-field aui-date-picker" value="${ app.formatDatePicker(date: inscription.dateCreated) }" required="true" readonly="true"/>
+    <label for="dateSignature"><span class="aui-icon icon-required"></span> Le</label>
+    <g:field name="dateSignature" type="date" class="text medium-field aui-date-picker" value="${ app.formatDatePicker(date: inscription.dateCreated) }" required="true" readonly="true"/>
 </div>
 
 <div class="field-group">
-<label for="signature"><span class="aui-icon icon-required"></span> Signature</label>
-<span/>
+    <label for="signature"><span class="aui-icon icon-required"></span> Signature</label>
+    <g:applyLayout name="canvas-signature" model="[signatureData: inscription.signatures ? inscription.signatures[0].data : null]">
+    </g:applyLayout>
+    <div class="description">
+        Signer dans la zone ci-dessus avec la souris (en restant appuyer sur le bouton gauche) ou pavé tactile
+    </div>
 </div>
+
+
+

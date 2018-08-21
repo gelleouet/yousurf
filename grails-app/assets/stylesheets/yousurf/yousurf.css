@@ -14,3 +14,19 @@
 .text-justify {
     text-align: justify;
 }
+
+.aui-item-signature {
+    width: 350px;
+}
+
+.canvas-signature {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.img-signature {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+}

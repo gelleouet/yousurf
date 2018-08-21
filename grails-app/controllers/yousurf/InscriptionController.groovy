@@ -101,6 +101,8 @@ class InscriptionController extends AbstractController {
      */
     @Secured('isAuthenticated()')
     def confirm(Inscription inscription) {
+        inscription.bindSignatures()
+
         try {
             inscriptionService.confirm(inscription)
         } catch (AppException exApp) {

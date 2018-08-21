@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.aspectj:aspectjweaver:1.9.1"
+    compile "org.apache.xmlgraphics:fop:2.3"
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"

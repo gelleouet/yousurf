@@ -14,19 +14,22 @@ class Inscription implements Serializable {
     Set parentaux = []
     Set medicaux = []
     Set creneaux = []
+    Set signatures = []
     boolean confirm
 
     // User properties
     List<Integer> creneauxList = []
     String problemeMedical
     String autorisationParentale
+    String signatureData
     int currentStep
 
 
-    static transients = ['creneauxList', 'problemeMedical', 'currentStep', 'autorisationParentale']
+    static transients = ['creneauxList', 'problemeMedical', 'currentStep', 'autorisationParentale', 'signatureData']
 
 
-    static hasMany = [medicaux: InscriptionMedical, creneaux: InscriptionCreneau, parentaux: InscriptionAutorisation]
+    static hasMany = [medicaux: InscriptionMedical, creneaux: InscriptionCreneau, parentaux: InscriptionAutorisation,
+        signatures: InscriptionSignature]
 
 
     // toutes les propriétés sont déclarées en nullable car la création se fait en plusieurs étapes
@@ -42,6 +45,7 @@ class Inscription implements Serializable {
         autorisationParentale nullable: true, bindable: true
         creneauxList bindable: true
         problemeMedical nullable: true, bindable: true
+        signatureData nullable: true, bindable: true
         currentStep bindable: true
     }
 
@@ -51,6 +55,7 @@ class Inscription implements Serializable {
         medicaux cascade: 'all-delete-orphan'
         creneaux cascade: 'all-delete-orphan'
         parentaux cascade: 'all-delete-orphan'
+        signatures cascade: 'all-delete-orphan'
         dateCreated index: 'Inscription_Idx'
         eleve index: 'Inscription_Idx'
         lieuSignature length: 128
@@ -122,6 +127,25 @@ class Inscription implements Serializable {
                 parentaux.clear()
             }
         }
+
+        return this
+    }
+
+    /**
+     * Bind de la signature depuis la propriété data
+     *
+     * @return
+     */
+    Inscription bindSignatures() {
+        if (signatureData) {
+            if (signatures) {
+                signatures[0].data = signatureData.getBytes()
+            } else {
+                this.addToSignatures(data: signatureData.getBytes())
+            }
+        }
+
+        // on ne traite pas le cas suppression car on ne supprime pas les anciennes signatures
 
         return this
     }

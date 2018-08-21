@@ -8,7 +8,7 @@ function onLoadInscriptionCreate() {
         if ($this.val() && !$portable.val()) {
             $portable.val($this.val())
         }
-    });
+    })
 
     $(document).on('blur', '#inscription-form #contact\\.portable', function(event) {
         var $telephone = $('#inscription-form #contact\\.telephone')
@@ -17,5 +17,11 @@ function onLoadInscriptionCreate() {
         if ($this.val() && !$telephone.val()) {
             $telephone.val($this.val())
         }
-    });
+    })
+
+    $(document).on('submit', '#inscription-form', function(event) {
+        checkEmptySignature(event)
+    })
+
+    initCanvasSignature()
 }

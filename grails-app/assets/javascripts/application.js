@@ -10,5 +10,4 @@
 //= require aui-7.9.6/aui-experimental.min
 //= require aui-7.9.6/aui-datepicker.min
 //= require_tree yousurf
-//= require_self
 
