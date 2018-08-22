@@ -24,7 +24,12 @@
                         </g:if>
                     </td>
                     <td>${ inscription.niveau?.libelle }</td>
-                    <td><g:link class="aui-button aui-button-subtle" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link></td>
+                    <td>
+                        <div class="aui-buttons">
+                            <g:link class="aui-button aui-button-subtle" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link>
+                            <g:link action="print" id="${ inscription.id }" class="aui-button aui-button-subtle" title="Imprimer"><span class="aui-icon aui-icon-small aui-iconfont-export"></span></g:link>
+                        </div>
+                    </td>
                 </tr>
             </g:each>
         </tbody>

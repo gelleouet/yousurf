@@ -1,12 +1,22 @@
 package yousurf
 
+import grails.async.web.WebPromises
 import grails.plugin.springsecurity.annotation.Secured
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import yousurf.command.InscriptionCommand
+import yousurf.report.InscriptionReport
+import yousurf.report.ReportService
 
 
 class InscriptionController extends AbstractController {
 
     InscriptionService inscriptionService
+
+    @Autowired
+    @Qualifier("gspfo")
+    ReportService reportService
+
 
     /**
      * Page principale : affichage et recherche des inscriptions
@@ -137,5 +147,21 @@ class InscriptionController extends AbstractController {
     @Secured('isAuthenticated()')
     def reglement() {
 
+    }
+
+
+    /**
+     * Rendu du PDF fiche d'inscription
+     *
+     * Utilisation du mode async Servlet 3 pour éviter d'attendre même si le rendu est rapide
+     * pour une seule page
+     *
+     */
+    @Secured("hasRole('ROLE_ADMIN')")
+    def print(Inscription inscription) {
+        //WebPromises.task {
+            InscriptionReport inscriptionReport = new InscriptionReport(inscription.id)
+            reportService.render(inscriptionReport, response)
+        //}
     }
 }
