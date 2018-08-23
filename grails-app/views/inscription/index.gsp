@@ -10,7 +10,7 @@
             <th>Elève</th>
             <th>Formule</th>
             <th>Niveau</th>
-            <th></th>
+            <th class="actions-column-size-2">Actions</th>
         </thead>
         <tbody>
             <g:each var="inscription" in="${ inscriptions }">
@@ -24,9 +24,9 @@
                         </g:if>
                     </td>
                     <td>${ inscription.niveau?.libelle }</td>
-                    <td>
+                    <td class="actions-column actions-column-size-2">
                         <div class="aui-buttons">
-                            <g:link class="aui-button aui-button-subtle" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link>
+                            <g:link class="aui-button aui-button-subtle confirm-button" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link>
                             <g:link action="print" id="${ inscription.id }" class="aui-button aui-button-subtle" title="Imprimer"><span class="aui-icon aui-icon-small aui-iconfont-export"></span></g:link>
                         </div>
                     </td>

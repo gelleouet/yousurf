@@ -3,7 +3,10 @@ package yousurf.report
 import org.apache.commons.lang.StringUtils
 import yousurf.AppException
 
-abstract class Report<T extends Report> {
+abstract class Report {
+    String baseURL
+
+
     /**
      * Nom par défaut du report
      *
@@ -14,20 +17,21 @@ abstract class Report<T extends Report> {
     }
 
     /**
-     * Init du report avec le rendu
+     * Le modèle des datas
      *
      * @return
      * @throws AppException
      */
-    final T build() throws AppException {
-        buildImpl()
-        return this
+    final Map model() throws AppException {
+        Map model = [report: this]
+        modelImpl(model)
+        return model
     }
 
     /**
-     * Le init à impléménter
+     * Le modèle à impléménter
      *
      * @throws AppException
      */
-    protected abstract void buildImpl() throws AppException
+    protected abstract void modelImpl(Map model) throws AppException
 }

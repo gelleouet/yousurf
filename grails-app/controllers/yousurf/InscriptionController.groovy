@@ -144,7 +144,7 @@ class InscriptionController extends AbstractController {
      * Règlement et conditions
      *
      */
-    @Secured('isAuthenticated()')
+    @Secured('permitAll')
     def reglement() {
 
     }
@@ -153,11 +153,9 @@ class InscriptionController extends AbstractController {
     /**
      * Rendu du PDF fiche d'inscription
      *
-     * Utilisation du mode async Servlet 3 pour éviter d'attendre même si le rendu est rapide
-     * pour une seule page
-     *
+     * @param inscription
      */
-    @Secured("hasRole('ROLE_ADMIN')")
+    @Secured('isAuthenticated()')
     def print(Inscription inscription) {
         //WebPromises.task {
             InscriptionReport inscriptionReport = new InscriptionReport(inscription.id)

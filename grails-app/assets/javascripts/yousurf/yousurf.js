@@ -1,17 +1,31 @@
-/*if (typeof jQuery !== 'undefined') {
+if (typeof jQuery !== 'undefined') {
     (function($) {
-        $(document).ajaxStart(function() {
-            $('#spinner').fadeIn();
-        }).ajaxStop(function() {
-            $('#spinner').fadeOut();
-        });
+        appOnLoad()
     })(jQuery);
-}*/
+}
+
 
 var _contextSignature
 var _canvasSignatureMousePressed = false
 var _canvasSignatureLastX
 var _canvasSignatureLastY
+
+
+/**
+ * Chargement global d'une page
+ *
+ */
+function appOnLoad() {
+    // message de confirmation sur les boutons sensibles
+    $(document).on('click', 'button.confirm-button, a.confirm-button', function(event) {
+        if (!confirm('Voulez-vous continuer ?')) {
+            event.preventDefault()
+            return false
+        }
+
+        return true
+    })
+}
 
 
 /**

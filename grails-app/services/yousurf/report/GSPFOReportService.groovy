@@ -7,13 +7,18 @@ import org.apache.fop.apps.Fop
 import org.apache.fop.apps.FopFactory
 import org.apache.fop.apps.FopFactoryBuilder
 import org.apache.fop.apps.MimeConstants
+import org.apache.xmlgraphics.io.ResourceResolver
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import yousurf.report.conf.fop.ServletContextFopResourceResolver
 
 import javax.annotation.PostConstruct
+import javax.servlet.ServletContext
 import javax.xml.transform.Result
 import javax.xml.transform.Source
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
+import javax.xml.transform.URIResolver
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 
@@ -26,6 +31,10 @@ import javax.xml.transform.stream.StreamSource
 class GSPFOReportService extends AbstractReportService {
 
     PageRenderer groovyPageRenderer
+
+    @Autowired
+    ServletContext servletContext
+
     FopFactory fopFactory
 
 
@@ -43,7 +52,8 @@ class GSPFOReportService extends AbstractReportService {
             configuration = fopConfigBuilder.build(it)
         }
 
-        fopFactory = new FopFactoryBuilder(new File(".").toURI()).setConfiguration(configuration).build()
+        ResourceResolver resourceResolver = new ServletContextFopResourceResolver(servletContext)
+        fopFactory = new FopFactoryBuilder(new File(".").toURI(), resourceResolver).setConfiguration(configuration).build()
     }
 
 
@@ -51,7 +61,7 @@ class GSPFOReportService extends AbstractReportService {
     protected void renderImpl(Report report, OutputStream outStream) throws Exception {
         // création du flux xslfo depuis la GSP liée au report
         String foBuffer = groovyPageRenderer.render(view: "/report/${ report.name() }",
-            model: [report: report])
+            model: report.model())
 
         // création du PDF avec le processeur FOP
         Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outStream)

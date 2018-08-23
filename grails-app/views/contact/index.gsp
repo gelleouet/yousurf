@@ -9,7 +9,7 @@
     <th>Prénom / Nom</th>
     <th>Téléphone</th>
     <th>Portable</th>
-    <th></th>
+    <th class="actions-column-size-1">Actions</th>
     </thead>
     <tbody>
     <g:each var="contact" in="${ contactList }">
@@ -17,7 +17,9 @@
             <td><g:link action="edit" id="${ contact.id }">${ contact.prenom } ${ contact.nom }</g:link></td>
             <td>${ contact.telephone }</td>
             <td>${ contact.portable }</td>
-            <td></td>
+            <td class="actions-column actions-column-size-1">
+
+            </td>
         </tr>
     </g:each>
     </tbody>

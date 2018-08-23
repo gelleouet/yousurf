@@ -1,5 +1,6 @@
 package yousurf.report
 
+import grails.core.GrailsApplication
 import yousurf.report.Report
 import javax.servlet.http.HttpServletResponse
 
@@ -11,6 +12,10 @@ abstract class AbstractReportService implements ReportService {
 
     static final String DEFAULT_CONTENT_TYPE = "application/download"
     static final String DEFAULT_EXTENSION = "pdf"
+
+
+    GrailsApplication grailsApplication
+
 
     /**
      * La méthode haut niveau à implémenter sans tenir compte de aspects bas niveau (fermeture flux, buffer, ...)
@@ -33,8 +38,11 @@ abstract class AbstractReportService implements ReportService {
      */
     @Override
     final void render(Report report, OutputStream outStream) throws Exception {
+        // traitement commun avant le rendu
+        report.baseURL = grailsApplication.config.getProperty("yousurf.server.localBaseURL")
+
         new BufferedOutputStream(outStream).withStream {
-            renderImpl(report.build(), it)
+            renderImpl(report, it)
         }
     }
 
