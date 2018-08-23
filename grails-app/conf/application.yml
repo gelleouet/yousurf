@@ -117,7 +117,7 @@ environments:
     production:
         yousurf:
             server:
-                localBaseURL: http://localhost:8080/yousurf
+                localBaseURL: http://localhost:8081/yousurf
         dataSource:
             jndiName: java:comp/env/yousurfDataSource
 
