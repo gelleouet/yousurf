@@ -1,5 +1,5 @@
 <footer id="footer" role="contentinfo">
-    <section class="footer-body">
+    <section id="footer-body" class="footer-body">
         <h6>
             YouSurf - Galerie Le Belvedère - 56520 Guidel-Plages
             <br/>

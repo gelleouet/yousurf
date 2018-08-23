@@ -19,7 +19,7 @@
         <g:applyLayout name="header"/>
 
         <section id="content" role="main">
-            <header class="aui-page-header">
+            <header id="aui-page-header" class="aui-page-header">
                 <div class="aui-page-header-inner">
                     <div class="aui-page-header-main">
                         <g:pageProperty name="page.headermain"/>
@@ -31,7 +31,7 @@
             </header>
 
 
-            <div class="aui-page-panel">
+            <div id="aui-page-panel" class="aui-page-panel">
                 <div class="aui-page-panel-inner">
                     <section class="aui-page-panel-content">
                         <g:layoutBody/>

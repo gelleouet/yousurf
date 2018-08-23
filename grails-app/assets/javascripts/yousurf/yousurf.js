@@ -55,23 +55,26 @@ function initCanvasSignature() {
     $('#canvas-signature').on('mousedown touchstart', function(event) {
         var offset = $(this).offset()
         _canvasSignatureMousePressed = true
-        drawSignature(event.pageX - offset.left, event.pageY - offset.top, false)
+        drawSignature(event, offset, false)
+        event.preventDefault()
     })
 
     $('#canvas-signature').on('mousemove touchmove', function (event) {
         if (_canvasSignatureMousePressed) {
             var offset = $(this).offset()
-            drawSignature(event.pageX - offset.left, event.pageY - offset.top, true)
-            $('#log-info').html("X:" + event.pageX + " Y:" + event.pageY + ' left:' + offset.left + ' top:' + offset.top)
+            drawSignature(event, offset, true)
         }
+        event.preventDefault()
     });
 
     $('#canvas-signature').on('mouseup touchend', function (event) {
         _canvasSignatureMousePressed = false;
+        event.preventDefault()
     })
 
     $('#canvas-signature').on('mouseleave', function (event) {
         _canvasSignatureMousePressed = false;
+        event.preventDefault()
     })
 }
 
@@ -79,19 +82,30 @@ function initCanvasSignature() {
 /**
  * Dessin de la signature
  */
-function drawSignature(x, y, isMouseDown) {
-    if (isMouseDown) {
-        _contextSignature.beginPath();
-        //_contextSignature.strokeStyle = $('#selColor').val();
-        _contextSignature.lineWidth = 2
-        _contextSignature.lineJoin = "round";
-        _contextSignature.moveTo(_canvasSignatureLastX, _canvasSignatureLastY);
-        _contextSignature.lineTo(x, y);
-        _contextSignature.closePath();
-        _contextSignature.stroke();
+function drawSignature(event, offset, isMouseDown) {
+    var x=-1, y=-1
+
+    if (event.type.indexOf("touch") != -1) {
+        x = event.originalEvent.touches[0].pageX - offset.left
+        y = event.originalEvent.touches[0].pageY - offset.top
+    } else {
+        x = event.pageX - offset.left
+        y = event.pageY - offset.top
     }
-    _canvasSignatureLastX = x
-    _canvasSignatureLastY = y
+
+    if (x != -1 && y != -1) {
+        if (isMouseDown) {
+            _contextSignature.beginPath();
+            _contextSignature.lineWidth = 2
+            _contextSignature.lineJoin = "round";
+            _contextSignature.moveTo(_canvasSignatureLastX, _canvasSignatureLastY);
+            _contextSignature.lineTo(x, y);
+            _contextSignature.closePath();
+            _contextSignature.stroke();
+        }
+        _canvasSignatureLastX = x
+        _canvasSignatureLastY = y
+    }
 }
 
 

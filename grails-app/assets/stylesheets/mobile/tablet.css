@@ -1,0 +1,11 @@
+/* Styles for mobile devices */
+
+@media screen and (max-width: 768px) {
+    #aui-page-header {
+        width: 750px;
+    }
+
+    #aui-page-panel {
+        width: 750px;
+    }
+}

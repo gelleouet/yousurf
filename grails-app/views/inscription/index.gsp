@@ -4,36 +4,38 @@
     <meta name="layout" content="main-navigation"/>
 </head>
 <body>
-    <table class="aui">
-        <thead>
-            <th>Création</th>
-            <th>Elève</th>
-            <th>Formule</th>
-            <th>Niveau</th>
-            <th class="actions-column-size-2">Actions</th>
-        </thead>
-        <tbody>
-            <g:each var="inscription" in="${ inscriptions }">
-                <tr>
-                    <td><g:link action="create" id="${ inscription.id }" title="Inscription"><g:formatDate date="${ inscription.dateCreated }" type="datetime"/></g:link></td>
-                    <td>${ inscription.eleve?.prenom } ${ inscription.eleve?.nom }</td>
-                    <td>
-                        <g:if test="${ inscription.formule }">
-                            ${ inscription.formule.libelle } du <g:formatDate date="${ inscription.dateDebut }" type="date"/>
-                            au <g:formatDate date="${ inscription.dateFin }" type="date"/>
-                        </g:if>
-                    </td>
-                    <td>${ inscription.niveau?.libelle }</td>
-                    <td class="actions-column actions-column-size-2">
-                        <div class="aui-buttons">
-                            <g:link class="aui-button aui-button-subtle confirm-button" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link>
-                            <g:link action="print" id="${ inscription.id }" class="aui-button aui-button-subtle" title="Imprimer"><span class="aui-icon aui-icon-small aui-iconfont-export"></span></g:link>
-                        </div>
-                    </td>
-                </tr>
-            </g:each>
-        </tbody>
-    </table>
+    <div style="overflow-x:auto;">
+        <table class="aui">
+            <thead>
+                <th>Création</th>
+                <th>Elève</th>
+                <th>Formule</th>
+                <th>Niveau</th>
+                <th class="actions-column-size-2">Actions</th>
+            </thead>
+            <tbody>
+                <g:each var="inscription" in="${ inscriptions }">
+                    <tr>
+                        <td><g:link action="create" id="${ inscription.id }" title="Inscription"><g:formatDate date="${ inscription.dateCreated }" type="datetime"/></g:link></td>
+                        <td>${ inscription.eleve?.prenom } ${ inscription.eleve?.nom }</td>
+                        <td>
+                            <g:if test="${ inscription.formule }">
+                                ${ inscription.formule.libelle } du <g:formatDate date="${ inscription.dateDebut }" type="date"/>
+                                au <g:formatDate date="${ inscription.dateFin }" type="date"/>
+                            </g:if>
+                        </td>
+                        <td>${ inscription.niveau?.libelle }</td>
+                        <td class="actions-column actions-column-size-2">
+                            <div class="aui-buttons">
+                                <g:link class="aui-button aui-button-subtle confirm-button" title="Supprimer"><span class="aui-icon aui-icon-small aui-iconfont-trash"></span></g:link>
+                                <g:link action="print" id="${ inscription.id }" class="aui-button aui-button-subtle" title="Imprimer"><span class="aui-icon aui-icon-small aui-iconfont-export"></span></g:link>
+                            </div>
+                        </td>
+                    </tr>
+                </g:each>
+            </tbody>
+        </table>
+    </div>
 
     <g:paginate total="${ inscriptions.totalCount }" max="${ params.max }"/>
 </body>

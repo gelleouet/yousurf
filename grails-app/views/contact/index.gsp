@@ -4,28 +4,30 @@
     <meta name="layout" content="main-navigation"/>
 </head>
 <body>
-<table class="aui">
-    <thead>
-    <th>Prénom / Nom</th>
-    <th>Téléphone</th>
-    <th>Portable</th>
-    <th class="actions-column-size-1">Actions</th>
-    </thead>
-    <tbody>
-    <g:each var="contact" in="${ contactList }">
-        <tr>
-            <td><g:link action="edit" id="${ contact.id }">${ contact.prenom } ${ contact.nom }</g:link></td>
-            <td>${ contact.telephone }</td>
-            <td>${ contact.portable }</td>
-            <td class="actions-column actions-column-size-1">
+    <div style="overflow-x:auto;">
+        <table class="aui">
+            <thead>
+            <th>Prénom / Nom</th>
+            <th>Téléphone</th>
+            <th>Portable</th>
+            <th class="actions-column-size-1">Actions</th>
+            </thead>
+            <tbody>
+            <g:each var="contact" in="${ contactList }">
+                <tr>
+                    <td><g:link action="edit" id="${ contact.id }">${ contact.prenom } ${ contact.nom }</g:link></td>
+                    <td>${ contact.telephone }</td>
+                    <td>${ contact.portable }</td>
+                    <td class="actions-column actions-column-size-1">
 
-            </td>
-        </tr>
-    </g:each>
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </div>
 
-<g:paginate total="${ contactList.totalCount }" max="${ params.max }"/>
+    <g:paginate total="${ contactList.totalCount }" max="${ params.max }"/>
 </body>
 
 

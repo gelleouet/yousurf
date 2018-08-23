@@ -4,7 +4,9 @@
     <meta name="layout" content="main"/>
 </head>
 <body pagelayout="aui-page-focused aui-page-size-large" onload="onLoadInscriptionCreate()">
-    <asset:image src="boutik-yousurf.jpg" class="header-banniere-img"/>
+    <div>
+        <asset:image src="boutik-yousurf.jpg" class="header-banniere-img"/>
+    </div>
 
     <div style="text-align:center;">
         <h1 class="header-banniere-text">Formulaire d'inscription</h1>
