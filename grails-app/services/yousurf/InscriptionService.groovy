@@ -2,14 +2,14 @@ package yousurf
 
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
+import yousurf.aspect.annotation.Workflowable
 import yousurf.command.ContactCommand
 import org.hibernate.criterion.CriteriaSpecification
-import yousurf.AppException
 import yousurf.command.InscriptionCommand
 
 
-@Service(Inscription)
-abstract class InscriptionService extends AbstractService {
+//@Service(Inscription)
+class InscriptionService extends AbstractService<Inscription> {
     EleveService eleveService
     ContactService contactService
 
@@ -21,6 +21,7 @@ abstract class InscriptionService extends AbstractService {
      * @param inscription
      * @return
      */
+    @Override
     @Transactional(readOnly = false, rollbackFor = [AppException])
     Inscription save(Inscription inscription) throws AppException {
         // recherche d'un élève existant si nouvelle saisie
@@ -45,11 +46,7 @@ abstract class InscriptionService extends AbstractService {
         // refait les tests de validation si changement
         inscription.validate()
 
-        if (!inscription.save()) {
-            throw new AppException("Erreur inscription", [errors: inscription.errors])
-        }
-
-        return inscription
+        return super.save(inscription)
     }
 
 
@@ -113,6 +110,7 @@ abstract class InscriptionService extends AbstractService {
      * @throw AppException si l'inscription n'est pas valide. L'exception devra renvoyer le step en erreur
      * dans ses paramètres
      */
+    @Workflowable
     @Transactional(readOnly = false, rollbackFor = [AppException])
     Inscription confirm(Inscription inscription) throws AppException {
         if (!inscription.eleve) {

@@ -6,16 +6,8 @@ import yousurf.command.ContactCommand
 import yousurf.command.EleveCommand
 
 
-@Service(Contact)
-abstract class ContactService extends AbstractService {
-
-    /**
-     * Enregistrement
-     *
-     * @param inscription
-     * @return
-     */
-    abstract Contact save(Contact contact)
+//@Service(Contact)
+class ContactService extends AbstractService<Contact> {
 
 
     /**

@@ -14,7 +14,10 @@
 <tr>
     <g:each var="formule" in="${ formules }" status="status">
         <td>
-            <h4><g:radio name="formule.id" value="${ formule.id }" checked="${ formule.id == inscription.formule?.id || status == 0 }"/><br/>${ raw(formule.libelle.replace("/", "<br/>")) }</h4>
+            <h4><g:radio name="formule.id" value="${ formule.id }" id="formuleId${ formule.id }" checked="${ formule.id == inscription.formule?.id || status == 0 }"/>
+            <br/>
+            <label for="formuleId${ formule.id }" style="color:#172b4d">${ raw(formule.libelle.replace("/", "<br/>")) }</label></h4>
+
         </td>
     </g:each>
 </tr>
@@ -59,7 +62,7 @@
     <g:each var="creneau" in="${ creneaux }">
         <td>
             <h4><g:checkBox name="creneauxList" id="creneauxList${ creneau.id }" value="${ creneau.id }" checked="${ creneau.id in creneauxIds }"/>
-                <br/><label for="creneauxList${ creneau.id }">${ creneau.libelle }</label>
+                <br/><label for="creneauxList${ creneau.id }" style="color:#172b4d">${ creneau.libelle }</label>
             </h4>
         </td>
     </g:each>

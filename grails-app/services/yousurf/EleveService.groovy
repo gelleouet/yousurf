@@ -5,17 +5,8 @@ import grails.gorm.transactions.Transactional
 import yousurf.command.EleveCommand
 
 
-@Service(Eleve)
-abstract class EleveService extends AbstractService {
-
-    /**
-     * Enregistrement
-     *
-     * @param inscription
-     * @return
-     */
-    abstract Eleve save(Eleve eleve)
-
+//@Service(Eleve)
+class EleveService extends AbstractService<Eleve> {
 
     /**
      * Recherche multi-critère paginée

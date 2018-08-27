@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="aui-responsive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -14,8 +14,7 @@
 
 <g:set var="onDefaultLoad" value="onDefaultLoad('${controllerName}_${actionName}')"/>
 
-<body class="${ pageProperty(name: 'body.pagelayout') }" onload="${ pageProperty(name: 'body.onload') ?: onDefaultLoad }">
-    <div id="page">
+<body class="${ !mobileAgent ? pageProperty(name: 'body.pagelayout') : '' }" onload="${ pageProperty(name: 'body.onload') ?: onDefaultLoad }">
         <g:applyLayout name="header"/>
 
         <section id="content" role="main">
@@ -41,7 +40,6 @@
         </section>
 
         <g:applyLayout name="footer"/>
-    </div>
 
     <asset:javascript src="application.js"/>
 </body>

@@ -6,7 +6,7 @@ import com.budjb.rabbitmq.consumer.MessageContext
 class WorkflowConsumer {
 
     static rabbitConfig = [
-            "queue": "yousurf.workflow"
+            "queue": Constantes.WORKFLOW_QUEUE
     ]
 
 
