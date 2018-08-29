@@ -1,10 +1,8 @@
-if (typeof jQuery !== 'undefined') {
+/*if (typeof jQuery !== 'undefined') {
     (function($) {
         appOnLoad()
     })(jQuery);
-}
-
-
+}*/
 var _contextSignature
 var _canvasSignatureMousePressed = false
 var _canvasSignatureLastX
@@ -12,20 +10,15 @@ var _canvasSignatureLastY
 
 
 /**
- * Chargement global d'une page
- *
+ * Code à exécuter dès qu"une page est chargée
  */
-function appOnLoad() {
-    // message de confirmation sur les boutons sensibles
-    $(document).on('click', 'button.confirm-button, a.confirm-button', function(event) {
-        if (!confirm('Voulez-vous continuer ?')) {
-            event.preventDefault()
-            return false
-        }
+$(document).ready(function() {
+	parseConfirmButton()
+	parsePaginationButton()
+	parseShowDialogButton()
+	parseUploadFile()
+});
 
-        return true
-    })
-}
 
 
 /**
@@ -36,6 +29,67 @@ function onDefaultLoad(action) {
     }
 }
 
+function parseUploadFile() {
+	if (typeof AJS !== 'undefined') {
+		AJS.$('.ffi input[type="file"]').fancyFileInput()
+	}
+}
+
+function parsePaginationButton() {
+    $("div.pagination a").addClass('aui-button')
+    $("div.pagination span.currentStep").addClass('aui-button').attr('aria-disabled', 'true')
+
+    $("div[data-form-id!=''].pagination").each(function() {
+        var $this = $(this)
+        var formId = $this.attr('data-form-id')
+        var $form = $('#' + formId)
+
+        // supprime les anciens listener
+        $this.off('click', 'a')
+
+        $this.on('click', 'a', function(event) {
+            var link = $(event.target)
+            var urlLink = link.attr('href')
+            // change l'action par défaut du formulaire en lui mettant l'action de pagination
+            $form.attr('action', urlLink)
+            $form.submit()
+            event.preventDefault()
+        });
+    })
+}
+
+function parseShowDialogButton() {
+    $("button[data-dialog-url]").on('click', function(event) {
+        event.preventDefault()
+        ajaxGet(this, 'data-dialog-url', {}, '#ajaxDialog', function(data) {
+            parseInnerDialogButton()
+            AJS.dialog2('#modal-dialog').show()
+        })
+    })
+}
+
+function parseInnerDialogButton() {
+    $("#ajaxDialog #dialog-cancel-button").on('click', function(event) {
+        event.preventDefault()
+        AJS.dialog2('#modal-dialog').hide()
+    })
+}
+
+/**
+ * ajout des messages de confirmation sur les boutons
+ *
+ */
+function parseConfirmButton() {
+    // message de confirmation sur les boutons sensibles
+    $(document).on('click', 'button.confirm-button, a.confirm-button', function(event) {
+        if (!confirm('Voulez-vous continuer ?')) {
+            event.preventDefault()
+            return false
+        }
+
+        return true
+    })
+}
 
 /**
  * Init le composant canvas signature
@@ -78,7 +132,6 @@ function initCanvasSignature() {
     })
 }
 
-
 /**
  * Dessin de la signature
  */
@@ -108,7 +161,6 @@ function drawSignature(event, offset, isMouseDown) {
     }
 }
 
-
 /**
  * Vérifie si la signature est présente dans le canvas
  */
@@ -131,5 +183,24 @@ function checkEmptySignature(event) {
             $('#signatureData').val(signatureData)
         }
     }
+}
 
+function ajaxGet(eltSrcId, urlAttr, datas, divDstId, onSuccess) {
+	var urlAction = $(eltSrcId).attr(urlAttr);
+	var global = !($(eltSrcId).attr('data-immediate') == 'true');
+
+	jQuery.ajax({
+		type: 'POST',
+		data: datas,
+		url: urlAction,
+		global: global,
+		success: function(data, textStatus) {
+			if (divDstId) {
+				$(divDstId).html(data);
+			}
+			if (onSuccess) {
+				onSuccess(data);
+			}
+		}
+	})
 }

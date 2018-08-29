@@ -2,6 +2,7 @@ package yousurf
 
 import grails.testing.web.interceptor.InterceptorUnitTest
 import spock.lang.Specification
+import yousurf.core.MobileInterceptor
 
 class MobileInterceptorSpec extends Specification implements InterceptorUnitTest<MobileInterceptor> {
 

@@ -35,6 +35,10 @@ class AppException extends Exception {
         this.params = params
     }
 
+    AppException(Throwable throwable) {
+        super(throwable)
+    }
+
     AppException(String s, Throwable throwable, boolean b, boolean b1, Map params) {
         super(s, throwable, b, b1)
         this.params = params

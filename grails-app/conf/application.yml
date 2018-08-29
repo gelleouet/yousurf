@@ -133,7 +133,7 @@ rabbitmq:
           durable: true
           exchange: amq.direct
           binding: yousurf.workflow
-        - name: yousurf.mail
+        - name: yousurf.email
           durable: true
           exchange: amq.direct
-          binding: yousurf.mail
+          binding: yousurf.email

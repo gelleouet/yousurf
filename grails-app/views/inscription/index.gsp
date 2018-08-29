@@ -4,8 +4,8 @@
     <meta name="layout" content="main-navigation"/>
 </head>
 <body>
-    <h1>Inscriptions</h1>
-    <g:form class="aui">
+    <h3>Inscriptions</h3>
+    <g:form class="aui" name="inscription-form">
         <g:field name="dateDebut" type="date" class="text medium-field aui-date-picker" value="${ app.formatDatePicker(date: command.dateDebut) }" required="true"/>
         <g:field name="dateFin" type="date" class="text medium-field aui-date-picker" value="${ app.formatDatePicker(date: command.dateFin) }"/>
         <g:textField name="prenomEleve" class="text medium-field" value="${ command.prenomEleve }" placeholder="Prénom élève"/>
@@ -17,7 +17,7 @@
 
     <br/>
 
-    <table class="aui">
+    <app:table class="aui" paginateForm="inscription-form" totalCount="${ inscriptions.totalCount }">
         <thead>
             <th>Création</th>
             <th>Elève</th>
@@ -46,11 +46,7 @@
                 </tr>
             </g:each>
         </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${ inscriptions.totalCount }" max="${ params.max }"/>
-    </div>
+    </app:table>
 </body>
 
 

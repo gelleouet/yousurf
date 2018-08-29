@@ -15,30 +15,70 @@
 <g:set var="onDefaultLoad" value="onDefaultLoad('${controllerName}_${actionName}')"/>
 
 <body class="${ !mobileAgent ? pageProperty(name: 'body.pagelayout') : '' }" onload="${ pageProperty(name: 'body.onload', default: onDefaultLoad) }">
-    <div id="page">
-        <g:applyLayout name="header"/>
+<div id="page">
+    <g:applyLayout name="header"/>
 
-        <section id="content" role="main">
+    <section id="content" role="main">
 
-            <div class="aui-page-panel">
-                <div class="aui-page-panel-inner">
-
-                    <div class="aui-page-panel-nav">
-                        <g:applyLayout name="navgroup-vertical">
-                            <g:pageProperty name="page.navbar"/>
-                        </g:applyLayout>
+        <header class="aui-page-header" style="border-bottom:1px solid #dfe1e6;">
+            <div class="aui-page-header-inner">
+                <div class="aui-page-header-image">
+                    <div class="aui-avatar aui-avatar-medium">
+                        <div class="aui-avatar-inner">
+                            <span class="aui-icon aui-icon-large aui-iconfont-configure"></span>
+                        </div>
                     </div>
-
-                    <section class="aui-page-panel-content">
-                        <g:layoutBody/>
-                    </section>
+                </div>
+                <div class="aui-page-header-main">
+                    <h2>Paramètres</h2>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <g:applyLayout name="footer"/>
-    </div>
 
-    <asset:javascript src="application.js"/>
+        <div class="aui-sidebar">
+            <div class="aui-sidebar-wrapper" style="border-right:1px solid #dfe1e6;">
+                <div class="aui-sidebar-body" >
+                    <nav class="aui-navgroup aui-navgroup-vertical">
+                        <div class="aui-navgroup-inner">
+                            <g:pageProperty name="page.navbar"/>
+                        </div>
+                    </nav>
+                </div>
+                <!--<div class="aui-sidebar-footer">
+                    <a class="aui-button aui-button-subtle aui-sidebar-toggle aui-sidebar-footer-tipsy">
+                        <span class="aui-icon aui-icon-small"></span>
+                    </a>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <section class="aui-page-panel-content">
+                    <g:if test="${ request.appException }">
+                        <g:applyLayout name="message-error">
+                            ${ request.appException.message }
+                            <content tag="bodymessage">
+                                <g:if test="${ request.appException.params.errors }">
+                                    <g:set var="fieldError" value="${ request.appException.params.errors.getFieldError() }"/>
+                                    <g:message code="${ fieldError.code }" args="${ fieldError.arguments }"/>
+                                </g:if>
+                            </content>
+                        </g:applyLayout>
+                    </g:if>
+
+                    <g:layoutBody/>
+                </section>
+            </div>
+        </div>
+    </section>
+
+    <div id="ajaxDialog"></div>
+
+    <g:applyLayout name="footer"/>
+</div>
+
+<asset:javascript src="application.js"/>
 </body>
 </html>

@@ -61,6 +61,17 @@ class Inscription implements Serializable {
         lieuSignature length: 128
     }
 
+
+    static {
+        grails.converters.JSON.registerObjectMarshaller(Inscription) {
+            // ne pas serialier les associations pour éviter les sous-requetes lazy
+            [id: it.id, 'class': it.class.name, dateCreated: it.dateCreated, dateDebut: it.dateDebut,
+             dateFin: it.dateFin, brevet25m: it.brevet25m, lieuSignature: it.lieuSignature, confirm: it.confirm,
+             eleve: [id: it.eleve?.id], contact: [id: it.contact?.id], formule: [id: it.formule?.id],
+             niveau: [id: it.niveau?.id]]
+        }
+    }
+
     /**
      * Default constructor
      */

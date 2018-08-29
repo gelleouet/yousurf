@@ -4,8 +4,8 @@
     <meta name="layout" content="main-navigation"/>
 </head>
 <body>
-    <h1>Elèves</h1>
-    <g:form class="aui">
+    <h3>Elèves</h3>
+    <g:form class="aui" name="eleve-form">
         <g:textField name="prenom" class="text medium-field" value="${ command.prenom }" placeholder="Prénom"/>
         <g:textField name="nom" class="text medium-field" value="${ command.nom }" placeholder="Nom"/>
         <g:textField name="email" class="text medium-field" value="${ command.email }" placeholder="Email"/>
@@ -14,7 +14,7 @@
 
     <br>
 
-    <table class="aui">
+    <app:table paginateForm="eleve-form" totalCount="${ eleveList.totalCount }">
         <thead>
         <th>Prénom / Nom</th>
         <th>Téléphone</th>
@@ -37,11 +37,7 @@
             </tr>
         </g:each>
         </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${ eleveList.totalCount }" max="${ params.max }"/>
-    </div>
+    </app:table>
 </body>
 
 

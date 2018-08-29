@@ -4,8 +4,8 @@
     <meta name="layout" content="main-navigation"/>
 </head>
 <body>
-    <h1>Contacts</h1>
-    <g:form class="aui">
+    <h3>Contacts</h3>
+    <g:form class="aui" name="contact-form">
         <g:textField name="prenom" class="text medium-field" value="${ command.prenom }" placeholder="Prénom"/>
         <g:textField name="nom" class="text medium-field" value="${ command.nom }" placeholder="Nom"/>
         <g:textField name="telephone" class="text medium-field" value="${ command.telephone }" placeholder="Téléphone / portable"/>
@@ -14,7 +14,7 @@
 
     <br/>
 
-    <table class="aui">
+    <app:table paginateForm="contact-form" totalCount="${ contactList.totalCount }">
         <thead>
         <th>Prénom / Nom</th>
         <th>Téléphone</th>
@@ -33,11 +33,7 @@
             </tr>
         </g:each>
         </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${ contactList.totalCount }" max="${ params.max }"/>
-    </div>
+    </app:table>
 </body>
 
 

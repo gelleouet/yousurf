@@ -1,16 +1,15 @@
 package yousurf
 
 import com.budjb.rabbitmq.publisher.RabbitMessagePublisher
+import grails.async.Promises
 import grails.converters.JSON
+import grails.gorm.transactions.NotTransactional
 import grails.gorm.transactions.Transactional
-import jdk.nashorn.internal.runtime.JSONFunctions
-import org.apache.fop.fonts.type1.AdobeStandardEncoding
+import org.springframework.transaction.annotation.Propagation
 
 
-@Transactional(readOnly = true, rollbackFor = [AppException])
+@Transactional(readOnly = true)
 abstract class AbstractService<T> {
-    RabbitMessagePublisher rabbitMessagePublisher
-
 
     /**
      * Enregistrement domain avec validation
@@ -28,19 +27,4 @@ abstract class AbstractService<T> {
         return domain
     }
 
-
-    /**
-     * Envoi d'un message sur le bus RabbitMQ
-     *
-     * @param exchange
-     * @param routingKey
-     * @param body
-     */
-    void sendAsyncMessage(String exchange, String routingKey, Map body) {
-        if (!body) {
-            body = [:]
-        }
-
-        rabbitMessagePublisher.send(exchange, routingKey, (body as JSON).toString())
-    }
 }

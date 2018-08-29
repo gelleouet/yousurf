@@ -28,6 +28,13 @@ repositories {
 }
 
 dependencies {
+    compile ("org.activiti:activiti-engine:$activitiVersion") {
+        exclude module: "spring-beans"
+    }
+    compile ("org.activiti:activiti-spring:$activitiVersion") {
+        exclude module: "commons-dbcp"
+        exclude module: "commons-pool"
+    }
     compile "org.aspectj:aspectjweaver:1.9.1"
     compile "org.apache.xmlgraphics:fop:2.3"
     compile "org.springframework.boot:spring-boot-starter-logging"

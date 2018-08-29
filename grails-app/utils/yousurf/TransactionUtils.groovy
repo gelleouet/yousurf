@@ -17,10 +17,7 @@ class TransactionUtils {
      * @param closure
      */
     static void executeAfterCommit(Closure closure) {
-        // Exécution immédiate si pas de transaction (ou en lecture seule)
-        if (!TransactionSynchronizationManager.isSynchronizationActive()) {
-            closure()
-        } else {
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
             // Ajout d'un listener fin de transaction commitée réussie
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
                 @Override
@@ -28,6 +25,22 @@ class TransactionUtils {
                     closure()
                 }
             })
+        } else {
+            closure()
+        }
+    }
+
+
+    /**
+     * Détache un objet s'il est domain de la session
+     *
+     * @param object
+     */
+    static void detachObject(Object object) {
+        if (object && object.respondsTo("isAttached")) {
+            if (object.isAttached()) {
+                object.discard()
+            }
         }
     }
 }

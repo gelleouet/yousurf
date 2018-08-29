@@ -1,4 +1,4 @@
-package yousurf
+package yousurf.core
 
 
 class MobileInterceptor {

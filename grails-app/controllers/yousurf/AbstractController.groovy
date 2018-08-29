@@ -13,7 +13,16 @@ abstract class AbstractController {
      *
      */
     protected Map pagination() {
-        [offset: params.offset ?: 0, max: params.max ?: 25]
+        // réinjecte dans request pour le système de pagination
+        if (!params.max) {
+            params.max = 25
+        }
+
+        if (!params.offset) {
+            params.offset = 0
+        }
+
+        [offset: params.offset, max: params.max]
     }
 
 
