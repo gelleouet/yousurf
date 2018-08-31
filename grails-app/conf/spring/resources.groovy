@@ -1,6 +1,7 @@
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.ProcessEngineFactoryBean;
-import org.activiti.engine.impl.history.HistoryLevel;
+import org.activiti.engine.impl.history.HistoryLevel
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import yousurf.UserPasswordEncoderListener
 
 
@@ -32,15 +33,6 @@ beans = {
         dbHistoryUsed = false
         createDiagramOnDeploy = true
         asyncExecutorActivate = true
-
-        // configuration SMTP
-        /*mailServerHost = application.config.smtp.hostname
-        mailServerPort = application.config.smtp.port
-        mailServerDefaultFrom = application.config.smtp.from
-        mailServerUsername = application.config.smtp.username
-        mailServerPassword = application.config.smtp.password
-        mailServerUseTLS = true*/
-
         databaseSchemaUpdate = true
         databaseSchema = "activiti"
     }
@@ -51,4 +43,15 @@ beans = {
 
     repositoryService(processEngine: "getRepositoryService")
     runtimeService(processEngine: "getRuntimeService")
+
+
+    // Spring Email Configuration
+    // -----------------------------------------------------------------
+
+    javaMailSender(JavaMailSenderImpl) {
+        host = application.config.email.smtp.host
+        port = application.config.email.smtp.port
+        username = application.config.email.smtp.username
+        password = application.config.email.smtp.password
+    }
 }

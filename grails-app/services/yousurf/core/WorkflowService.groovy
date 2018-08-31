@@ -1,5 +1,6 @@
 package yousurf.core
 
+import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
 import org.activiti.engine.RepositoryService
 import org.activiti.engine.RuntimeService
@@ -20,6 +21,7 @@ import yousurf.command.WorkflowCommand
 class WorkflowService extends AbstractService<WorkflowCommand> {
     RepositoryService repositoryService
     RuntimeService runtimeService
+    GrailsApplication grailsApplication
 
 
     /**
@@ -187,21 +189,24 @@ class WorkflowService extends AbstractService<WorkflowCommand> {
      * La transaction est en écriture dans le cas de mise à jour depuis le workflow
      *
      * @param name
-     * @param context
+     * @param model
      * @return
      * @throws AppException
      */
     @Transactional(readOnly = false, rollbackFor = [AppException])
-    void execute(String name, Map context) throws AppException {
+    void execute(String name, Map model) throws AppException {
         Deployment deployment = findDeploymentByName(name)
 
         if (deployment) {
             ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
                     .deploymentId(deployment.getId()).singleResult();
 
+            // prépare les variables de process
+            Map variables = [context: model]
+
             try {
-                ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId(),
-                        [context: context])
+                ProcessInstance processInstance = runtimeService.startProcessInstanceById(
+                        processDefinition.getId(), variables)
             } catch (Exception ex) {
                 throw new AppException(ex)
             }

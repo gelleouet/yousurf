@@ -2,6 +2,7 @@ package yousurf.core
 
 
 import com.budjb.rabbitmq.consumer.MessageContext
+import com.google.gson.Gson
 import yousurf.AppException
 import yousurf.Constantes
 
@@ -24,7 +25,10 @@ class WorkflowConsumer {
      * @param context Properties of the incoming message.
      * @return
      */
-    def handleMessage(Map body, MessageContext messageContext) {
+    def handleMessage(MessageContext messageContext) {
+        Gson gson = new Gson()
+        Map body = gson.fromJson(new String(messageContext.body), Map.class)
+
         if (body?.workflowName) {
             try {
                 workflowService.execute(body.workflowName, body)

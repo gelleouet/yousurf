@@ -8,6 +8,8 @@ import yousurf.command.InscriptionCommand
 import yousurf.report.InscriptionReport
 import yousurf.report.ReportService
 
+import javax.servlet.http.HttpServletResponse
+
 
 class InscriptionController extends AbstractController {
 
@@ -151,15 +153,30 @@ class InscriptionController extends AbstractController {
 
 
     /**
-     * Rendu du PDF fiche d'inscription
+     * Rendu du PDF fiche d'inscription en mode connecté
      *
      * @param inscription
      */
     @Secured('isAuthenticated()')
     def print(Inscription inscription) {
-        //WebPromises.task {
-            InscriptionReport inscriptionReport = new InscriptionReport(inscription.id)
-            reportService.render(inscriptionReport, response)
-        //}
+        InscriptionReport inscriptionReport = new InscriptionReport(inscription.id)
+        reportService.render(inscriptionReport, response)
+    }
+
+
+    /**
+     * Rendu du PDF fiche d'inscription en mode externe
+     *
+     * @param inscription
+     */
+    @Secured('permitAll')
+    def apiPrint(Inscription inscription) {
+        try {
+            ApplicationUtils.assertAppToken(grailsApplication, request.getHeader('Authorization'))
+        } catch (AppException ex) {
+            render text: ex.message, status: HttpServletResponse.SC_UNAUTHORIZED
+        }
+
+        print(inscription)
     }
 }

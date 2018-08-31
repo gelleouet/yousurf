@@ -6,9 +6,10 @@ class Email implements Serializable {
     List<String> cc = []
     List<String> bcc = []
     String subject
-    List<String> attachments = []
-
-    String title
+    List<Map> attachments = [] // Map de type [name(required), [url|link](required), contentType]
+                                // link est une map utilisée pour le generator link de grails
+    // soit le body, soit la paire view/model
     String body
-
+    String view
+    Map model = [:]
 }

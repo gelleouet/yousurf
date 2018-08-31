@@ -99,35 +99,18 @@ hibernate:
         use_query_cache: false
 
 environments:
-    development:
-        yousurf:
-            server:
-                localBaseURL: http://localhost:8080
-        dataSource:
-            logSql: true
-            driverClassName: org.postgresql.Driver
-            dbCreate: update
-            url: jdbc:postgresql://localhost:5432/yousurf
-            username: postgres
-            password: 18fhk6vf4d
     test:
         dataSource:
             dbCreate: create-drop
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    production:
-        yousurf:
-            server:
-                localBaseURL: http://localhost:8081/yousurf
-        dataSource:
-            jndiName: java:comp/env/yousurfDataSource
+
+
+email:
+    smtp:
+        from: Yousurf <contact@jdevops.com>
 
 
 rabbitmq:
-    connections:
-        - name: main
-          host: localhost
-          username: guest
-          password: guest
     queues:
         - name: yousurf.workflow
           durable: true

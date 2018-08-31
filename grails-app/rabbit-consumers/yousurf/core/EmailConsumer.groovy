@@ -1,6 +1,7 @@
 package yousurf.core
 
 import com.budjb.rabbitmq.consumer.MessageContext
+import com.google.gson.Gson
 import yousurf.AppException
 import yousurf.Constantes
 
@@ -19,11 +20,13 @@ class EmailConsumer {
     /**
      * Handle an incoming RabbitMQ message.
      *
-     * @param body    The converted body of the incoming message.
      * @param context Properties of the incoming message.
      * @return
      */
-    def handleMessage(Map body, MessageContext messageContext) {
+    def handleMessage(MessageContext messageContext) {
+        Gson gson = new Gson()
+        Map body = gson.fromJson(new String(messageContext.body), Map.class)
+
         try {
             emailService.send(body)
         } catch (AppException ex) {

@@ -20,7 +20,7 @@ class QueueService {
      * @param routingKey
      * @param body
      */
-    void queueMessage(String exchange, String routingKey, Map body) {
+    void queueMessage(String exchange, String routingKey, body) {
         if (!body) {
             body = [:]
         }
@@ -36,9 +36,9 @@ class QueueService {
      * @param routingKey
      * @param body
      */
-    void asyncQueueMessage(String exchange, String routingKey, Map body) {
+    void asyncQueueMessage(String exchange, String routingKey, body) {
         Promises.task {
-            sendMessage(exchange, routingKey, body)
+            queueMessage(exchange, routingKey, body)
         }.onError {
             log.error "Cannot send message ${routingKey}", it
         }

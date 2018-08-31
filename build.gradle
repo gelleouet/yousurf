@@ -28,6 +28,10 @@ repositories {
 }
 
 dependencies {
+    compile "com.google.code.gson:gson:2.8.5"
+    compile "org.apache.httpcomponents:httpclient:4.5.6"
+    compile "org.apache.httpcomponents:fluent-hc:4.5.6"
+    compile "org.codehaus.groovy:groovy-jsr223:$groovyVersion"
     compile ("org.activiti:activiti-engine:$activitiVersion") {
         exclude module: "spring-beans"
     }
