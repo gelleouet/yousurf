@@ -116,6 +116,10 @@ class InscriptionController extends AbstractController {
         inscription.bindSignatures()
 
         try {
+            // on enregistre d'abord la page courante pour ne pas perdre les infos
+            // si la confirmation échoue
+            inscriptionService.save(inscription)
+
             inscriptionService.confirm(inscription)
         } catch (AppException exApp) {
             setAppException(exApp)

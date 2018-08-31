@@ -3,13 +3,13 @@
   <process id="myProcess" name="My process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <scriptTask id="scripttask1" name="Préparation des données" scriptFormat="groovy" activiti:autoStoreVariables="false">
-      <script>def inscription = yousurf.Inscription.read(context.result.id as Long)
-execution.setVariable("inscription", inscription)
+      <script>
 </script>
     </scriptTask>
     <sequenceFlow id="flow10" sourceRef="startevent1" targetRef="scripttask1"></sequenceFlow>
     <scriptTask id="scripttask2" name="Envoi email fiche inscription" scriptFormat="groovy" activiti:autoStoreVariables="false">
-      <script>yousurf.core.Email email = new yousurf.core.Email()
+      <script>def inscription = yousurf.Inscription.read(context.result.id as Long)
+yousurf.core.Email email = new yousurf.core.Email()
 
 email.to &lt;&lt; inscription.eleve.email
 email.subject = "Inscription ${inscription.formule.libelle} du ${inscription.dateDebut.format('dd/MM/yyyy')}"

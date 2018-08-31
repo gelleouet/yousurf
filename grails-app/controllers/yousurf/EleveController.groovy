@@ -2,11 +2,13 @@ package yousurf
 
 import grails.plugin.springsecurity.annotation.Secured
 import yousurf.command.EleveCommand
+import yousurf.edi.HiboutikService
 
 
 class EleveController extends AbstractController {
 
     EleveService eleveService
+    HiboutikService hiboutikService
 
 
     /**
@@ -53,5 +55,21 @@ class EleveController extends AbstractController {
     def saveEdit(Eleve eleve) {
         eleveService.save(eleve)
         redirect(action: "index")
+    }
+
+
+    /**
+     * Synchronisation avec Hiboutik
+     *
+     * @param eleve
+     */
+    @Secured("hasRole('ROLE_ADMIN')")
+    def syncHiboutik(Eleve eleve) {
+        try {
+            hiboutikService.syncEleve(eleve)
+        } catch (AppException ex) {
+            setAppException(ex)
+        }
+        forward action: 'index'
     }
 }
