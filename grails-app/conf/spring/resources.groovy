@@ -33,7 +33,7 @@ beans = {
         dbHistoryUsed = false
         createDiagramOnDeploy = true
         asyncExecutorActivate = true
-        databaseSchemaUpdate = application.yousurf.activiti.databaseSchemaUpdate
+        databaseSchemaUpdate = application.config.yousurf.activiti.databaseSchemaUpdate
         databaseSchema = "activiti"
     }
 
