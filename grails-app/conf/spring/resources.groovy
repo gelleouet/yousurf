@@ -1,3 +1,5 @@
+package spring
+
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.engine.impl.history.HistoryLevel
