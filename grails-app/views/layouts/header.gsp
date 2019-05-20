@@ -36,7 +36,7 @@
                         <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-aide" aria-hidden="true">
                             <div class="aui-dropdown2-section">
                                 <div class="aui-dropdown2-heading">
-                                    Yousurf Webapp v<g:meta name="info.app.version"/>
+                                    Yousurf v<g:meta name="info.app.version"/>
                                 </div>
                                 <ul>
                                     <li><a href="https://www.facebook.com/surfshoplastageguidelxyousurf.fr/" target="facebook">Facebook</a></li>

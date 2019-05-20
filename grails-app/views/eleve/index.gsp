@@ -14,7 +14,7 @@
 
     <br/>
 
-    <app:table paginateForm="eleve-form" totalCount="${ eleveList.totalCount }">
+    <app:table paginateForm="eleve-form" totalCount="${ eleveList?.totalCount ?: 0 }">
         <thead>
         <th>Prénom / Nom</th>
         <th>Téléphone</th>

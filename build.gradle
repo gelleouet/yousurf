@@ -84,6 +84,15 @@ bootRun {
     addResources = true
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+	
+	/**
+	 * !! Attention : spring.config.location
+	 * sous spring boot 1 => ajoute le chemin dans la conf par défaut
+	 * (et c'est ce que l'on veut)
+	 * sous spring boot 2 => remplace les chemins par défaut par les locations.
+	 * dans ce cas, il faut utiliser spring.config.additional-location
+	 */
+    systemProperty "spring.config.location", System.getProperty("spring.config.location")
 }
 
 tasks.withType(Test) {
